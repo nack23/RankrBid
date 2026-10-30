@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+/* Class-based dark mode (Tailwind v4 defaults to the OS media query —
+   this makes the navbar's moon/sun toggle actually control it via a
+   `.dark` class on <html>). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+}
+
+/* Clean, near-white premium base — kept intentionally subtle so the page
+   reads crisp (like the reference), not tinted/yellow. */
+body {
+  background-color: #fbfaf8;
+  background-image:
+    radial-gradient(60rem 30rem at 12% -10%, rgba(249, 115, 22, 0.035), transparent 60%),
+    radial-gradient(50rem 26rem at 100% 0%, rgba(17, 24, 39, 0.02), transparent 55%);
+  background-attachment: fixed;
+  transition: background-color 0.2s ease;
+}
+
+html.dark body {
+  background-color: #1b1714;
+  background-image: none;
+}
+
+html.dark { color-scheme: dark; }
+
+html.dark input::placeholder { color: #a59b95; }
+html.dark select option { background: #29231f; color: #f7f2ef; }

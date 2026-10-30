@@ -1,0 +1,26 @@
+{
+  "name": "rankbid-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.jsx",
+    "test": "node --test tests/paymentController.test.js tests/paymentWebhook.test.js tests/categoryPages.test.mjs",
+    "enrich:claims": "node backfillClaimMetadata.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.23.0",
+    "razorpay": "^2.9.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
