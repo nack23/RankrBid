@@ -60,7 +60,7 @@ app.get("/test-db", async (req, res) => {
         result.rows[0].now,
     });
   } catch (error) {
-    console.error(error);
+    console.error(`Database health check failed (code: ${error.code || "UNKNOWN"}).`);
 
     res.status(500).json({
       message:
@@ -83,8 +83,26 @@ app.use(paymentRoutes);
 const PORT =
   process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(
-    `Server running on http://localhost:${PORT}`
-  );
-});
+async function startServer() {
+  if (!process.env.DATABASE_URL) {
+    console.error("Database startup check failed: DATABASE_URL is missing.");
+    process.exitCode = 1;
+    return;
+  }
+
+  console.log("Checking database connection...");
+  try {
+    await pool.query("SELECT 1");
+    console.log("Database connected successfully.");
+    app.listen(PORT, () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    // Keep credentials and the connection string out of deployment logs.
+    console.error(`Database startup check failed (code: ${error.code || "UNKNOWN"}).`);
+    process.exitCode = 1;
+    await pool.end();
+  }
+}
+
+startServer();
